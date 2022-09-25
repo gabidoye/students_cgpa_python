@@ -1,19 +1,12 @@
-students = {
-   "name":"y",
-   "studentid":"z",
+student_record = {
+   "name": "James Webb",
+   "id": "APT5005",
    "courses":[
-      {
-         "Coursetitle":"English",
-         "Unit":2,
-         "CourseCode":"ENG",
-         "score":60
-      },
-      {
-         "Coursetitle":"Maths",
-         "Unit":3,
-         "CourseCode":"MAT",
-         "score":80
-      }
+      {"title": "English", "unit": 2, "code": "ENG101", "score": 60, "term": "Fall"},
+      {"title": "Chemistry I", "unit": 4, "code": "CHE101", "score": 70, "term": "Fall"},
+      {"title": "Maths", "unit": 3, "code": "MTH101", "score": 80, "term": "Spring"},
+      {"title": "Chemistry II", "unit": 4, "code": "CHE102", "score": 91, "term": "Spring"}, 
+      {"title": "History", "unit": 2, "code": "HIS102", "score": 40, "term": "Spring"}
    ]
 }
 
