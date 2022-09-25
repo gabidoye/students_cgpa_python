@@ -1,4 +1,3 @@
-
 students = {
    "name":"y",
    "studentid":"z",
@@ -87,8 +86,3 @@ print(compute_student_gpa(students))
     
     
 # print(gpa(students))
-
-
-
-
-
