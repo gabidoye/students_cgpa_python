@@ -31,15 +31,18 @@ def compute_student_grade(student_record,points):
          grade.append('F')
    return grade ,grade_points  
    
-Result=[60, 80, 40, 30]
-point=['B','A','D','E']
-print(compute_student_grade(Result, point))
+# Result=[60, 80, 40, 30]
+# point=['B','A','D','E']
+# print(compute_student_grade(Result, point))
 
 
-def compute_student_grade_point_average(unit_credit, unit_score):
-   sum_units= sum(unit_credit)
-   sum_score= sum(unit_score)
-   return round((sum_score / sum_units), 2)
+def compute_student_gpa(fall_credit, fall_unit_score, spring_credit, spring_unit_score):
+    fall_gpa= round((sum(fall_unit_score) / sum(fall_credit)), 2)
+    spring_gpa= round((sum(spring_unit_score) / sum(spring_credit)), 2)
+    return fall_gpa, spring_gpa
+
+
+print(compute_student_gpa([4, 5], [8, 15], [2,3], [1,2]))
 
 # # print(compute_student_grade_point_average([4, 5], [8, 15]))
 
