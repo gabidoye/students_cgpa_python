@@ -12,10 +12,10 @@ student_record = {
 
 # print(student_record["courses"])
 
-def compute_student_grade(student_record,points):
+def compute_student_grade(student_record):
    grade_point_map = {'A': 5, 'B': 4, 'C':3, 'D':2, 'E':1, 'F':0}
    grade=[]
-   grade_points=[grade_point_map[grade] for grade in points if grade in grade_point_map.keys()]
+   # grade_points=[grade_point_map[grade] for grade in points if grade in grade_point_map.keys()]
    for score in student_record:
       if score >=70:
          grade.append('A')
@@ -29,11 +29,16 @@ def compute_student_grade(student_record,points):
          grade.append('E')
       if score <=39 :
          grade.append('F')
-   return grade ,grade_points  
+   return grade 
    
 # Result=[60, 80, 40, 30]
 # point=['B','A','D','E']
 # print(compute_student_grade(Result, point))
+
+def compute_student_grade_point(grades):
+   grade_point_map = {'A': 5, 'B': 4, 'C':3, 'D':2, 'E':1, 'F':0}
+   output=[grade_point_map[grade] for grade in grades if grade in grade_point_map.keys()]
+   return output
 
 
 def compute_student_gpa(fall_credit, fall_unit_score, spring_credit, spring_unit_score):
@@ -42,22 +47,30 @@ def compute_student_gpa(fall_credit, fall_unit_score, spring_credit, spring_unit
     return fall_gpa, spring_gpa
 
 
-print(compute_student_gpa([4, 5], [8, 15], [2,3], [1,2]))
+# print(compute_student_gpa([4, 5], [8, 15], [2,3], [1,2]))
 
-# # print(compute_student_grade_point_average([4, 5], [8, 15]))
 
-# def compute_student_gpa(student_record):
+def compute_cgpa(student_record):
     
-#     cgpa= (student_record['courses'])
-#     unit=[d['Unit'] for d in (student_record['courses'])] 
-#     student_scores=[d['score'] for d in (student_record['courses'])] 
-#     grade_scale = compute_student_grade(student_scores)
-#     grade_score = compute_student_grade_point(grade_scale)
-#     grade_point = [a*b for a,b in zip(unit,grade_score)]
-#     grade_point_avg= compute_student_grade_point_average(unit,grade_point)
-       
-#     return grade_point_avg
-# print(compute_student_gpa(students))
+    cgpa= (student_record['courses'])
+    name=student_record['name']
+    ID= student_record['id']
+    fall_unit=[d['unit'] for d in (student_record['courses']) if d['term']=='Fall'] 
+    spring_unit=[d['unit'] for d in (student_record['courses']) if d['term']=='Spring'] 
+    fall_scores=[d['score'] for d in (student_record['courses'])if d['term']=='Fall'] 
+    spring_scores=[d['score'] for d in (student_record['courses'])if d['term']=='Spring'] 
+    fall_grade_scale = compute_student_grade(fall_scores)
+   #  print(fall_grade_scale)
+    spring_grade_scale = compute_student_grade(spring_scores)
+    fall_grade_score = compute_student_grade_point(fall_grade_scale)
+    spring_grade_score = compute_student_grade_point(spring_grade_scale)
+    fall_grade_point = [a*b for a,b in zip(fall_unit,fall_grade_score)]
+    spring_grade_point = [a*b for a,b in zip(spring_unit,spring_grade_score)]
+    fall_gpa,spring_gpa= compute_student_gpa(fall_unit,fall_grade_point,spring_unit,spring_grade_point)
+    cgpa =round((spring_gpa +fall_gpa)/2,2)   
+    return fall_gpa,spring_gpa, name, ID, cgpa
+print(compute_cgpa(student_record))
+
 
 
 
