@@ -48,6 +48,18 @@ def compute_student_gpa(fall_credit, fall_unit_score, spring_credit, spring_unit
 
 
 # print(compute_student_gpa([4, 5], [8, 15], [2,3], [1,2]))
+def output_box():
+   rows = int(5)
+   columns = int(10)
+   for i in range(0, rows):
+      for j in range(0, columns):
+         if(i == 0 or i == rows - 1 or j == 0 or j == columns - 1):
+               print('#',  end = '  ')
+         else:
+               print(' ', end = '  ')
+      print()
+
+# output_box()
 
 
 def compute_cgpa(student_record):
@@ -59,17 +71,41 @@ def compute_cgpa(student_record):
     spring_unit=[d['unit'] for d in (student_record['courses']) if d['term']=='Spring'] 
     fall_scores=[d['score'] for d in (student_record['courses'])if d['term']=='Fall'] 
     spring_scores=[d['score'] for d in (student_record['courses'])if d['term']=='Spring'] 
+
+
     fall_grade_scale = compute_student_grade(fall_scores)
-   #  print(fall_grade_scale)
     spring_grade_scale = compute_student_grade(spring_scores)
+
     fall_grade_score = compute_student_grade_point(fall_grade_scale)
     spring_grade_score = compute_student_grade_point(spring_grade_scale)
+
     fall_grade_point = [a*b for a,b in zip(fall_unit,fall_grade_score)]
     spring_grade_point = [a*b for a,b in zip(spring_unit,spring_grade_score)]
+
     fall_gpa,spring_gpa= compute_student_gpa(fall_unit,fall_grade_point,spring_unit,spring_grade_point)
-    cgpa =round((spring_gpa +fall_gpa)/2,2)   
-    return fall_gpa,spring_gpa, name, ID, cgpa
-print(compute_cgpa(student_record))
+    
+    cgpa =round((spring_gpa +fall_gpa)/2,2)  
+
+    return name, ID, cgpa, fall_gpa,spring_gpa
+
+# print(compute_cgpa(student_record))
+
+if __name__ == "__main__":
+   gpa = compute_cgpa(student_record)
+   print(gpa)
+   stmt=''
+
+   print (stmt.center(30, '#'))   
+   print("Name : % 1s, ID : % 1s" %(gpa[0],gpa[1])) 
+   print("CGPA: ", gpa[2])
+   print("Fall : % 1.2f, Spring : % 1.2f" %(gpa[3],gpa[4]))
+   print (stmt.center(30, '#'))  
+   # print("GPA:{0:2f}, Fall :{1:6.3f}". format(gpa[1], gpa[0]))
+   # print("GPA:{0:2f}". format(gpa[1]))
+
+
+
+
 
 
 
