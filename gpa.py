@@ -1,7 +1,8 @@
+GRADE_POINT_MAP = {'A': 5, 'B': 4, 'C':3, 'D':2, 'E':1, 'F':0}
 
 def compute_student_grade(student_record):
    """
-   This computes the students grade based on the score the student gets in each course
+   This computes the students grade and point based on the score the student gets in each course
 
    Parameters
    -----------
@@ -11,11 +12,13 @@ def compute_student_grade(student_record):
    -------
    array_like
         Array of grades mapped to alphabets A,B,C,D,E,F.
+        Array of points mapped to values of constant dictionary[5,4,3,2,1,0]
 
    Example
    --------
    Result=[60, 80, 40, 30]
    grade=['B','A','D','E']
+   point =[4,5,2,1]
 
    """
    # REVIEW COMMENTS\
@@ -25,64 +28,31 @@ def compute_student_grade(student_record):
       # https://realpython.com/python-constants/
    # END REVIEW COMMENTS
 
-   grade_point_map = {'A': 5, 'B': 4, 'C':3, 'D':2, 'E':1, 'F':0}
    grade=[]
-   # grade_points=[grade_point_map[grade] for grade in points if grade in grade_point_map.keys()]
+   points=[]
    for score in student_record:
       if score >=70:
          grade.append('A')
+         points.append(GRADE_POINT_MAP['A'])
       if score  >=60 and score <=69:
          grade.append('B')
+         points.append(GRADE_POINT_MAP['B'])
       if score >=50 and score <=59:
          grade.append('C')
+         points.append(GRADE_POINT_MAP['C'])
       if score >=45 and score <=49:
          grade.append('D')
+         points.append(GRADE_POINT_MAP['D'])
       if score >=40 and score <=44:
          grade.append('E')
+         points.append(GRADE_POINT_MAP['E'])
       if score <=39 :
          grade.append('F')
-   return grade 
+         points.append(GRADE_POINT_MAP['F'])
+   return grade, points
+
+# print(compute_student_grade([50,60,84]))
    
-# REVIEW COMMENTS
-   # I dont see any need for this function; it could be combined with the function above 
-   # you could already get the points from compute_student_grade like so: 
-      # points = []
-      # for score in student_record:
-         # if score >=70:
-         #    points.append(grade_point_map['A'])
-         # if score  >=60 and score <=69:
-         #    points.append(grade_point_map['B'])
-         # if score >=50 and score <=59:
-         #    points.append(grade_point_map['C'])
-         # if score >=45 and score <=49:
-         #    points.append(grade_point_map['D'])
-         # if score >=40 and score <=44:
-         #    points.append(grade_point_map['E'])
-         # if score <=39 :
-         #    points.append(grade_point_map['F'])
-# END REVIEW COMMENTS
-def compute_student_grade_point(grades):
-   """
-   It maps the grades returned by function compute_student_grade to the point for the 
-   obtained grade.  {'A': 5, 'B': 4, 'C':3, 'D':2, 'E':1, 'F':0}
-
-   Parameters
-   -----------
-   grades : Array of grade 
-
-   Returns
-   -------
-   array_like ,  Array of points mapped to alphabets 5,4,3,2,1, 0.
-
-   Example
-   --------
-   grade=[60, 80, 40,]
-   point=[4,5,2]
-
-   """
-   grade_point_map = {'A': 5, 'B': 4, 'C':3, 'D':2, 'E':1, 'F':0}
-   point=[grade_point_map[grade] for grade in grades if grade in grade_point_map.keys()]
-   return point
 
 # REVIEW COMMENTS
    # this function is not efficient
