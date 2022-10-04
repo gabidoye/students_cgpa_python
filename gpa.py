@@ -86,30 +86,43 @@ def compute_student_gpa(fall_credit, fall_unit_score, spring_credit, spring_unit
 
 
 
-# REVIEW COMMENTS
-   # this function is not used anywhere 
-   # suggest to remove 
-# END REVIEW COMMENTS
-def output_box():
-   """
-   prints a hallow box for diplaying output
+def countsems(s):
 
-   Parameters
-   ----------
-   row > int
-   columns > int
+    semester=set()
+    fall_unit_credit=[]
+    spring_unit_credit=[]
+    score_fall=[]
+    score_spring=[]
+    # courses_spring=set()
+    courses_spring={}
+    for d in (student_record['courses']):
+        # print(d['term'])
+        for key, value in d.items():
+            if key=='term':
+                semester.add(value) 
+    # print(semester)
+    
+    for s in semester:
+        for d in (student_record['courses']):
+            if s == d['term'] and s=='Fall':
+                fall_unit_credit.append(d['unit'])
+                score_fall.append(d['score'])
+            
+            if s == d['term'] and s=='Spring':
+                # print(d)
+                spring_unit_credit.append(d['unit'])
+                score_spring.append(d['score'])
+                # grade
+                
+    print(spring_unit_credit, score_spring)
+    print("######")
+    print(fall_unit_credit, score_fall)
+                
+        
+    # print(semester)        
+    # return len(semester) # courses_fall, courses_spring ,len(semester)
 
-   """
-   rows = int(5)
-   columns = int(10)
-   for i in range(0, rows):
-      for j in range(0, columns):
-         if(i == 0 or i == rows - 1 or j == 0 or j == columns - 1):
-               print('#',  end = '  ')
-         else:
-               print(' ', end = '  ')
-      print()
-
+# print(countsems(student_record))
 
 def compute_cgpa(student_record):
    """
