@@ -59,17 +59,15 @@ def compute_student_grade(student_record):
    # it should take a single semester data at a time 
    # the calling function should use a loop to call for each semester in turn
 # END REVIEW COMMENTS
-def compute_student_gpa(fall_credit, fall_unit_score, spring_credit, spring_unit_score):
+def compute_student_gpa(credit, unit_score):
    """
    Use the score obtained in each semester(fall or spring) and the course unit credit to 
    calculates the gpa for the respective semester.
 
    Parameters
    -----------
-   fall_credit : Array of int 
-   fall_unit_score : Array of int
-   spring_credit : array of int
-   spring_unit_score : array of int
+   credit : Array of int 
+   unit_score : Array of int
 
    Returns
    -------
@@ -78,51 +76,50 @@ def compute_student_gpa(fall_credit, fall_unit_score, spring_credit, spring_unit
    Example
    --------
    compute_student_gpa([4, 5], [8, 15], [2,3], [1,2])) # (2.56, 0.6)
-
    """
-   fall_gpa= round((sum(fall_unit_score) / sum(fall_credit)), 2)
-   spring_gpa= round((sum(spring_unit_score) / sum(spring_credit)), 2)
-   return fall_gpa, spring_gpa
+   gpa= round((sum(unit_score) / sum(credit)), 2)
+   return gpa
 
 
 
 def countsems(s):
 
-    semester=set()
-    fall_unit_credit=[]
-    spring_unit_credit=[]
+    semesters=set()
+    fall_credit_unit=[]
+    spring_credit_unit=[]
     score_fall=[]
     score_spring=[]
-    # courses_spring=set()
-    courses_spring={}
     for d in (student_record['courses']):
-        # print(d['term'])
         for key, value in d.items():
             if key=='term':
                 semester.add(value) 
     # print(semester)
     
-    for s in semester:
+    for semester in semesters:
         for d in (student_record['courses']):
-            if s == d['term'] and s=='Fall':
-                fall_unit_credit.append(d['unit'])
+            if semester == d['term'] and s=='Fall':
+                fall_credit_unit.append(d['unit'])
                 score_fall.append(d['score'])
+                fall_grade,fall_point=compute_student_grade(score_fall)
+                total_grade_point_fall = [a*b for a,b in zip(fall_credit_unit,fall_point)]
+                fall_gpa=compute_student_gpa(fall_credit_unit,total_grade_point_fall)
             
             if s == d['term'] and s=='Spring':
-                # print(d)
-                spring_unit_credit.append(d['unit'])
+                spring_credit_unit.append(d['unit'])
                 score_spring.append(d['score'])
-                # grade
+                spring_grade,spring_point=compute_student_grade(score_spring)
+                total_grade_point_spring = [a*b for a,b in zip(spring_credit_unit,spring_point)]
+                spriing_gpa=compute_student_gpa(spring_credit_unit,total_grade_point_spring)
                 
-    print(spring_unit_credit, score_spring)
+    print(spring_credit_unit, score_spring,spring_grade,spring_point,spriing_gpa,total_grade_point_spring )
     print("######")
-    print(fall_unit_credit, score_fall)
+    print(fall_credit_unit, score_fall, fall_grade,fall_point, fall_gpa,total_grade_point_fall)
                 
         
     # print(semester)        
     # return len(semester) # courses_fall, courses_spring ,len(semester)
 
-# print(countsems(student_record))
+print(countsems(student_record))
 
 def compute_cgpa(student_record):
    """
@@ -168,24 +165,24 @@ def compute_cgpa(student_record):
    fall_grade_scale = compute_student_grade(fall_scores)
    spring_grade_scale = compute_student_grade(spring_scores)
 
-   fall_grade_score = compute_student_grade_point(fall_grade_scale)
-   spring_grade_score = compute_student_grade_point(spring_grade_scale)
+   # fall_grade_score = compute_student_grade_point(fall_grade_scale)
+   # spring_grade_score = compute_student_grade_point(spring_grade_scale)
 
-   fall_grade_point = [a*b for a,b in zip(fall_unit,fall_grade_score)]
-   spring_grade_point = [a*b for a,b in zip(spring_unit,spring_grade_score)]
+   # fall_grade_point = [a*b for a,b in zip(fall_unit,fall_grade_score)]
+   # spring_grade_point = [a*b for a,b in zip(spring_unit,spring_grade_score)]
 
-   fall_gpa,spring_gpa= compute_student_gpa(fall_unit,fall_grade_point,spring_unit,spring_grade_point)
+   # fall_gpa,spring_gpa= compute_student_gpa(fall_unit,fall_grade_point,spring_unit,spring_grade_point)
    
    # REVIEW COMMENTS
       # this is not the correct way to compute CGPA
       # the correct formula is described in the link below
       # http://primaltutor.com.ng/learn-how-to-calculate-cgpa-in-nigerian-universities/#:~:text=Example%3A%20If%20in%20a%20semester,for%20all%20semesters%20to%20date.
       # refer to my comments above
-   # END REVIEW COMMENTS
-   cgpa =round((spring_gpa +fall_gpa)/2,2)  
+   # # END REVIEW COMMENTS
+   # cgpa =round((spring_gpa +fall_gpa)/2,2)  
 
 
-   return name, ID, cgpa, fall_gpa,spring_gpa
+   # return name, ID, cgpa, fall_gpa,spring_gpa
 
 
 if __name__ == "__main__":
@@ -204,19 +201,19 @@ if __name__ == "__main__":
       ]
    }
 
-   gpa = compute_cgpa(student_record)
-   stmt=''
+   # gpa = compute_cgpa(student_record)
+   # stmt=''
 
-   print (stmt.center(30, '#'))   # do we really need this centering?
-   print("Name : % 1s, ID : % 1s" %(gpa[0], gpa[1])) 
+   # print (stmt.center(30, '#'))   # do we really need this centering?
+   # print("Name : % 1s, ID : % 1s" %(gpa[0], gpa[1])) 
    
-   # REVIEW COMMENTS
-      # we may simplify the output by printing the per semester gpa each on a separate line 
-      # then followed by the CGPA like: 
-   # END REVIEW COMMENTS
-   print("Fall : % 1.2f" %gpa[3])
-   print("Spring : % 1.2f" %gpa[4])
-   print("CGPA: ", gpa[2])
-   print (stmt.center(30, '#'))  
+   # # REVIEW COMMENTS
+   #    # we may simplify the output by printing the per semester gpa each on a separate line 
+   #    # then followed by the CGPA like: 
+   # # END REVIEW COMMENTS
+   # print("Fall : % 1.2f" %gpa[3])
+   # print("Spring : % 1.2f" %gpa[4])
+   # print("CGPA: ", gpa[2])
+   # print (stmt.center(30, '#'))  
 
 
