@@ -12,7 +12,7 @@ student_records = {
 
 GRADE_POINT_MAP = {'A': 5, 'B': 4, 'C':3, 'D':2, 'E':1, 'F':0}
 
-def compute_student_grade(student_record):
+def compute_student_grade(scores):
    """
    This computes the students grade and point based on the score the student gets in each course
    Parameters
@@ -35,7 +35,7 @@ def compute_student_grade(student_record):
    # END REVIEW COMMENTS
    grade=[]
    points=[]
-   for score in student_record:
+   for score in scores:
       if score >=70:
          grade.append('A')
          points.append(GRADE_POINT_MAP['A'])
@@ -80,54 +80,51 @@ def compute_student_gpa(units, scores):
    """
    grade,points=compute_student_grade(scores)
    total_unit=sum(units)
-   total_grade_point = [a*b for a,b in zip(units,points)]
+   total_grade_point = sum([a*b for a,b in zip(units,points)])# 11 [a,a,e][5,5,1][3,4,2]
    gpa= round((total_grade_point / total_unit), 2)
-   return gpa
 
-def get_score_data(terms,student_records):
-   for term in terms:
-      units=[]
-      scores=[]
-      for record in (student_records['courses']):
-         if record['term'] == term:
-            units.append(record['unit'])
-            scores.append(record['score'])
+   return total_unit,total_grade_point,gpa
+
+def get_score_data(term,course_records):
+   units=[]
+   scores=[]
+   for record in (course_records['courses']):
+      if record['term'] == term:
+         units.append(record['unit'])
+         scores.append(record['score'])
    return (units, scores)
    
-
-def get_semesters(student_records):
+def get_semesters(course_records):
    semesters=set()
-   for d in (student_records['courses']):
+   for d in (course_records['courses']):
       for key, value in d.items():
          if key=='term':
                semesters.add(value) 
    return list(semesters)
 
+def compute_results(student_records):
+   #get unique semester names
+   semesters= get_semesters(student_records)
+   total_units, total_grade_points =[],[]
+   results = {}
+   for term in semesters:
+      units, scores =get_score_data(term,student_records )
+      tu,tgps,gpa=compute_student_gpa(units, scores)
+      total_units.append(tu)
+      total_grade_points.append(tgps)
+      results[term]=gpa
+
+   cgpa = round(sum(total_grade_points) / sum(total_units),2)
+   results['CGPA']= cgpa
+
+   return results
+
+# print(compute_results(student_records))
 
 
 
-# terms=['Spring', 'Fall']
-# a, b =(get_score_data(terms,student_records))
-# print(a,b)
 
-      
-               #  fall_credit_unit.append(d['unit'])
-               #  score_fall.append(d['score'])
-               #  fall_grade,fall_point=compute_student_grade(score_fall)
-               #  total_grade_point_fall = [a*b for a,b in zip(fall_credit_unit,fall_point)]
-               #  fall_gpa=compute_student_gpa(fall_credit_unit,total_grade_point_fall)
-            
-#             if s == d['term'] and s=='Spring':
-#                 spring_credit_unit.append(d['unit'])
-#                 score_spring.append(d['score'])
-#                 spring_grade,spring_point=compute_student_grade(score_spring)
-#                 total_grade_point_spring = [a*b for a,b in zip(spring_credit_unit,spring_point)]
-#                 spriing_gpa=compute_student_gpa(spring_credit_unit,total_grade_point_spring)
-                
-#     print(spring_credit_unit, score_spring,spring_grade,spring_point,spriing_gpa,total_grade_point_spring )
-#     print("######")
-#     print(fall_credit_unit, score_fall, fall_grade,fall_point, fall_gpa,total_grade_point_fall)
-                
+             
         
 #     # print(semester)        
 #     # return len(semester) # courses_fall, courses_spring ,len(semester)
@@ -148,53 +145,6 @@ def get_semesters(student_records):
 #    --------
 #    Float
    
-#    """
-#    # REVIEW COMMENTS
-#       # the approach here might work right now, but I don't see this scaling really well
-#       # think of a situation where you have 3 semester or the requirement expands to multiple sessions
-#       # are you gonna end up with duplicating the following lines for sessions too?
-#       # I'm expecting an approach that allows where 
-#       #  given a student record, 
-#       #  first you determine how many unique semesters are there in the data
-#       #  write a loop that extracts all courses for each of the semester
-#       #     compute and track the gpa and other gpa quantities for the semester 
-#       #     e.g. the total units and grade points (i.e. total of score grade * course unit) for the semester
-#       #  write another loop that computes the total units across semesters and total grade points across semesters
-#       #  and use these two quantity to compute the cumulative gpa
-#       #  this function could either add a 2 new entries to the student record argument e.g. 
-#       #     student_record['gpa'] = [('Fall', 4.5), ('Spring', 3.6)]
-#       #     student_record['cgpa'] = 3.9
-#       #  or return a new dictionary with a structure like so: {'id':'GPY2343', 'gpa':[{'Fall':4.5}, {'Spring': 3.6}], 'cgpa': 3.9}
-#    # END REVIEW COMMENTS
-#    cgpa= (student_record['courses'])
-#    name=student_record['name']
-#    ID= student_record['id']
-#    fall_unit=[d['unit'] for d in (student_record['courses']) if d['term']=='Fall'] 
-#    spring_unit=[d['unit'] for d in (student_record['courses']) if d['term']=='Spring'] 
-#    fall_scores=[d['score'] for d in (student_record['courses'])if d['term']=='Fall'] 
-#    spring_scores=[d['score'] for d in (student_record['courses'])if d['term']=='Spring'] 
-
-
-#    fall_grade_scale = compute_student_grade(fall_scores)
-#    spring_grade_scale = compute_student_grade(spring_scores)
-
-#    # fall_grade_score = compute_student_grade_point(fall_grade_scale)
-#    # spring_grade_score = compute_student_grade_point(spring_grade_scale)
-
-#    # fall_grade_point = [a*b for a,b in zip(fall_unit,fall_grade_score)]
-#    # spring_grade_point = [a*b for a,b in zip(spring_unit,spring_grade_score)]
-
-#    # fall_gpa,spring_gpa= compute_student_gpa(fall_unit,fall_grade_point,spring_unit,spring_grade_point)
-   
-#    # REVIEW COMMENTS
-#       # this is not the correct way to compute CGPA
-#       # the correct formula is described in the link below
-#       # http://primaltutor.com.ng/learn-how-to-calculate-cgpa-in-nigerian-universities/#:~:text=Example%3A%20If%20in%20a%20semester,for%20all%20semesters%20to%20date.
-#       # refer to my comments above
-#    # # END REVIEW COMMENTS
-#    # cgpa =round((spring_gpa +fall_gpa)/2,2)  
-
-
 #    # return name, ID, cgpa, fall_gpa,spring_gpa
 
 
