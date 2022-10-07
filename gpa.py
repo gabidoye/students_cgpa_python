@@ -1,16 +1,5 @@
-student_records = {
-      "name": "James Webb",
-      "id": "APT5005",
-      "courses":[
-         {"title": "English", "unit": 2, "code": "ENG101", "score": 60, "term": "Fall"},
-         {"title": "Chemistry I", "unit": 4, "code": "CHE101", "score": 70, "term": "Fall"},
-         {"title": "Maths", "unit": 3, "code": "MTH101", "score": 80, "term": "Spring"},
-         {"title": "Chemistry II", "unit": 4, "code": "CHE102", "score": 91, "term": "Spring"}, 
-         {"title": "History", "unit": 2, "code": "HIS102", "score": 40, "term": "Spring"}
-      ]
-   }
 
-GRADE_POINT_MAP = {'A': 5, 'B': 4, 'C':3, 'D':2, 'E':1, 'F':0}
+GRADE_POINT_MAP = {'A': 5, 'B': 4, 'C':3, 'D':2, 'E':1, 'F':0} #constant used for mapping score and grades
 
 def compute_student_grade(scores):
    """
@@ -86,6 +75,15 @@ def compute_student_gpa(units, scores):
    return total_unit,total_grade_point,gpa
 
 def get_score_data(term,course_records):
+   """
+   This function takes the term and student record and extracts the scores and the units for the semester.
+   parameters
+   -----------
+   string and dict
+   return
+   -------
+   array of units and scores
+   """
    units=[]
    scores=[]
    for record in (course_records['courses']):
@@ -95,6 +93,15 @@ def get_score_data(term,course_records):
    return (units, scores)
    
 def get_semesters(course_records):
+   """
+   This function retrieve the unique semesters from the student record.
+   parameters
+   -----------
+   dict
+   return
+   -------
+   array of semesters
+   """
    semesters=set()
    for d in (course_records['courses']):
       for key, value in d.items():
@@ -103,6 +110,15 @@ def get_semesters(course_records):
    return list(semesters)
 
 def compute_results(student_records):
+   """
+   computes the gpa for each semester and also the cgpa based on the fomular here.
+   http://primaltutor.com.ng/learn-how-to-calculate-cgpa-in-nigerian-universities/#:~:text=Example%3A%20If%20in%20a%20semester,for%20all%20semesters%20to%20date
+   
+   return
+   -------
+   array -total_units, total_grade_points
+   dictionary - cgpa
+   """
    #get unique semester names
    semesters= get_semesters(student_records)
    total_units, total_grade_points =[],[]
@@ -115,68 +131,34 @@ def compute_results(student_records):
       results[term]=gpa
 
    cgpa = round(sum(total_grade_points) / sum(total_units),2)
+   name=student_records['name']
+   ID= student_records['id']
    results['CGPA']= cgpa
 
-   return results
+   return name, ID, results
 
 # print(compute_results(student_records))
 
 
+if __name__ == "__main__":
+
+   student_records = {
+      "name": "James Webb",
+      "id": "APT5005",
+      "courses":[
+         {"title": "English", "unit": 2, "code": "ENG101", "score": 60, "term": "Fall"},
+         {"title": "Chemistry I", "unit": 4, "code": "CHE101", "score": 70, "term": "Fall"},
+         {"title": "Maths", "unit": 3, "code": "MTH101", "score": 80, "term": "Spring"},
+         {"title": "Chemistry II", "unit": 4, "code": "CHE102", "score": 91, "term": "Spring"}, 
+         {"title": "History", "unit": 2, "code": "HIS102", "score": 40, "term": "Spring"}
+      ]
+   }
+
+   results=compute_results(student_records)
+   # print(results)
+ 
 
 
-             
-        
-#     # print(semester)        
-#     # return len(semester) # courses_fall, courses_spring ,len(semester)
 
-# # print(countsems(student_record))
-
-# def compute_cgpa(student_record):
-#    """
-#    First computes the student's gpa per semester then finds an average of the 
-#    two semester.
-
-#    Parameters
-#    ----------
-#    fall_gpa > float
-#    spring_gpa > float
-
-#    Returns
-#    --------
-#    Float
-   
-#    # return name, ID, cgpa, fall_gpa,spring_gpa
-
-
-# if __name__ == "__main__":
-#    # REVIEW COMMENTS
-#       # I moved the data here
-#    # END REVIEW COMMENTS
-#    student_record = {
-#       "name": "James Webb",
-#       "id": "APT5005",
-#       "courses":[
-#          {"title": "English", "unit": 2, "code": "ENG101", "score": 60, "term": "Fall"},
-#          {"title": "Chemistry I", "unit": 4, "code": "CHE101", "score": 70, "term": "Fall"},
-#          {"title": "Maths", "unit": 3, "code": "MTH101", "score": 80, "term": "Spring"},
-#          {"title": "Chemistry II", "unit": 4, "code": "CHE102", "score": 91, "term": "Spring"}, 
-#          {"title": "History", "unit": 2, "code": "HIS102", "score": 40, "term": "Spring"}
-#       ]
-#    }
-
-#    # gpa = compute_cgpa(student_record)
-#    # stmt=''
-
-#    # print (stmt.center(30, '#'))   # do we really need this centering?
-#    # print("Name : % 1s, ID : % 1s" %(gpa[0], gpa[1])) 
-   
-#    # # REVIEW COMMENTS
-#    #    # we may simplify the output by printing the per semester gpa each on a separate line 
-#    #    # then followed by the CGPA like: 
-#    # # END REVIEW COMMENTS
-#    # print("Fall : % 1.2f" %gpa[3])
-#    # print("Spring : % 1.2f" %gpa[4])
-#    # print("CGPA: ", gpa[2])
-#    # print (stmt.center(30, '#'))  
 
 
