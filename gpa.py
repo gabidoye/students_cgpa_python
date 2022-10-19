@@ -6,7 +6,8 @@ def compute_student_grade(scores):
    This computes the students grade and point based on the score the student gets in each course
    Parameters
    -----------
-   student_record : Array of scores from the student's dictionary
+   student_record : (list) 
+         List of scores
    Returns
    -------
    List of (alphabetic) grades and  list of grade points
