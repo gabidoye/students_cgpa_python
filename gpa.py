@@ -13,7 +13,7 @@ def compute_student_grade(scores):
    List of (alphabetic) grades and  list of grade points
    Example
    --------
-   Result=[60, 80, 40, 30]
+   scores = [60, 80, 40, 30]
    grade=['B','A','D','E']
    point =[4,5,2,1]
    """
