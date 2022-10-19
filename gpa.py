@@ -156,7 +156,7 @@ if __name__ == "__main__":
    }
 
    results=compute_results(student_records)
-   # print(results)
+   print(results)
  
 
 
