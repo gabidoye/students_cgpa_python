@@ -136,7 +136,7 @@ def compute_results(student_records):
    results['id'] = student_records['id']
    results['CGPA'] = cgpa
 
-   return name, ID, results
+   return results
 
 # print(compute_results(student_records))
 
