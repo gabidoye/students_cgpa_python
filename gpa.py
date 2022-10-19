@@ -9,7 +9,7 @@ def compute_student_grade(scores):
    student_record : Array of scores from the student's dictionary
    Returns
    -------
-   Array of grades mapped to alphabets (A,B,C,D,E,F) and Array of points mapped to values of constant dictionary[5,4,3,2,1,0]
+   List of (alphabetic) grades and  list of grade points
    Example
    --------
    Result=[60, 80, 40, 30]
