@@ -14,7 +14,7 @@ def compute_student_grade(scores):
    Example
    --------
    scores = [60, 80, 40, 30]
-   grade=['B','A','D','E']
+   grades = ['B','A','D','E']
    point = [4, 5, 2, 1]
    """
    # REVIEW COMMENTS\
