@@ -126,7 +126,7 @@ def compute_results(student_records):
    results = {}
    for term in semesters:
       units, scores =get_score_data(term,student_records )
-      tu,tgps,gpa=compute_student_gpa(units, scores)
+      tu,tgps,gpa=compute_gpa(units, scores)
       total_units.append(tu)
       total_grade_points.append(tgps)
       results[term]=gpa
