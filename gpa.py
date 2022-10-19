@@ -15,7 +15,7 @@ def compute_student_grade(scores):
    --------
    scores = [60, 80, 40, 30]
    grade=['B','A','D','E']
-   point =[4,5,2,1]
+   point = [4, 5, 2, 1]
    """
    # REVIEW COMMENTS\
       # I'll suggest to move this map to the top of the file as a constant 
