@@ -132,9 +132,9 @@ def compute_results(student_records):
       results[term]=gpa
 
    cgpa = round(sum(total_grade_points) / sum(total_units),2)
-   name=student_records['name']
-   ID= student_records['id']
-   results['CGPA']= cgpa
+   results['name'] = student_records['name']
+   results['id'] = student_records['id']
+   results['CGPA'] = cgpa
 
    return name, ID, results
 
