@@ -17,31 +17,26 @@ def compute_student_grade(scores):
    grades = ['B','A','D','E']
    point = [4, 5, 2, 1]
    """
-   # REVIEW COMMENTS\
-      # I'll suggest to move this map to the top of the file as a constant 
-      # following python convention
-      # skim this to get an idea of how you name constants 
-      # https://realpython.com/python-constants/
-   # END REVIEW COMMENTS
-   grade=[]
-   points=[]
+
+   grade = []
+   points = []
    for score in scores:
-      if score >=70:
+      if score >= 70:
          grade.append('A')
          points.append(GRADE_POINT_MAP['A'])
-      if score  >=60 and score <=69:
+      if score  >= 60 and score <= 69:
          grade.append('B')
          points.append(GRADE_POINT_MAP['B'])
-      if score >=50 and score <=59:
+      if score >= 50 and score <= 59:
          grade.append('C')
          points.append(GRADE_POINT_MAP['C'])
-      if score >=45 and score <=49:
+      if score >= 45 and score <= 49:
          grade.append('D')
          points.append(GRADE_POINT_MAP['D'])
-      if score >=40 and score <=44:
+      if score >= 40 and score <= 44:
          grade.append('E')
          points.append(GRADE_POINT_MAP['E'])
-      if score <=39 :
+      if score <= 39 :
          grade.append('F')
          points.append(GRADE_POINT_MAP['F'])
    return grade, points
@@ -49,11 +44,6 @@ def compute_student_grade(scores):
 # print(compute_student_grade([50,60,84]))
    
 
-# REVIEW COMMENTS
-   # this function is not efficient
-   # it should take a single semester data at a time 
-   # the calling function should use a loop to call for each semester in turn
-# END REVIEW COMMENTS
 def compute_student_gpa(units, scores):
    """
    Use the score obtained in each semester(fall or spring) and the course unit credit to calculates the gpa for the respective semester.
@@ -68,10 +58,10 @@ def compute_student_gpa(units, scores):
    --------
    compute_student_gpa([4, 5], [8, 15], [2,3], [1,2])) # (2.56, 0.6)
    """
-   grade,points=compute_student_grade(scores)
-   total_unit=sum(units)
+   grade,points = compute_student_grade(scores)
+   total_unit = sum(units)
    total_grade_point = sum([a*b for a,b in zip(units,points)])# 11 [a,a,e][5,5,1][3,4,2]
-   gpa= round((total_grade_point / total_unit), 2)
+   gpa = round((total_grade_point / total_unit), 2)
 
    return total_unit,total_grade_point,gpa
 
@@ -85,8 +75,8 @@ def get_score_data(session,term,course_records):
    -------
    array of units and scores
    """
-   units=[]
-   scores=[]
+   units = []
+   scores = []
    for record in (course_records['courses']):
       if record['term'] == term and record['session'] == session:
          units.append(record['unit'])
@@ -103,24 +93,42 @@ def get_semesters(course_records):
    -------
    array of semesters
    """
-   semesters=set()
+   semesters = set()
    for d in (course_records['courses']):
       for key, value in d.items():
-         if key=='term':
+         if key == 'term':
                semesters.add(value) 
    return list(semesters)
 
 def get_sessions(course_records):
-   sessions=set()
+   """
+   This function retrieve the unique sessions from the student record.
+   parameters
+   -----------
+   dict
+   return
+   -------
+   array of sessions
+   """
+   sessions = set()
    for d in (course_records['courses']):
       for key, value in d.items():
-         if key=='session':
+         if key == 'session':
                sessions.add(value) 
    return list(sessions)
 
 def calculate_sum(lst):
+   """
+   This function sums nested list.
+   parameters
+   -----------
+   list 
+   return
+   -------
+   array of values
+   """
       
-    return list(map(sum, zip(*lst)))
+   return list(map(sum, zip(*lst)))
 
 def compute_results(student_records):
    """
@@ -135,31 +143,41 @@ def compute_results(student_records):
    #get unique semester names
    sessions = get_sessions(student_records)
    semesters = get_semesters(student_records)
-   stotal_units, stotal_grade_points =[],[]
+   session_total_units, session_total_grade_points =[],[]
 
-   final_results = []
+   final_year_results = {}
    for session in sessions:
       total_units, total_grade_points =[],[]
       results = {}
       for term in semesters:
+         """
+         compute cgpa for all terms in each session and keeping track of the units $ grades
+         """
          units, scores = get_score_data(session,term,student_records )
          tu,tgps,gpa = compute_student_gpa(units, scores)
          total_units.append(tu)
          total_grade_points.append(tgps)
-         results['session']=session
-         results[term]=gpa
+         results[term] = gpa
          cgpa = round(sum(total_grade_points) / sum(total_units),2)
-   # results['name'] = student_records['name']
-   # results['id'] = student_records['id']
          results['cgpa'] = cgpa
-   
-      final_results.append(results)
-      stotal_units.append(total_units)
-      stotal_grade_points.append(total_grade_points)
 
+      """
+      keeping track of the total unit and grade point outside the term loop to be used for the final year computation
+      """
+      session_total_units.append(total_units)
+      session_total_grade_points.append(total_grade_points)
       
-   final_year_cgpa = round(sum(calculate_sum(stotal_grade_points)) / sum(calculate_sum(stotal_units)),2)
-   return final_results, final_year_cgpa
+      """
+      final year computaion of cgpa with values of each session
+      """
+      final_year_cgpa = round(sum(calculate_sum(session_total_grade_points)) / sum(calculate_sum(session_total_units)),2)
+      final_year_results['name'] = student_records['name']
+      final_year_results['id'] = student_records['id']
+      final_year_results[f"{session}_session"] = results
+      final_year_results['final_year_cgpa'] = final_year_cgpa
+      
+      
+   return final_year_results
          
 
 
