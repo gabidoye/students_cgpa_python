@@ -75,7 +75,7 @@ def compute_student_gpa(units, scores):
 
    return total_unit,total_grade_point,gpa
 
-def get_score_data(term,course_records):
+def get_score_data(session,term,course_records):
    """
    This function takes the term and student record and extracts the scores and the units for the semester.
    parameters
@@ -88,7 +88,7 @@ def get_score_data(term,course_records):
    units=[]
    scores=[]
    for record in (course_records['courses']):
-      if record['term'] == term:
+      if record['term'] == term and record['session'] == session:
          units.append(record['unit'])
          scores.append(record['score'])
    return (units, scores)
@@ -110,6 +110,14 @@ def get_semesters(course_records):
                semesters.add(value) 
    return list(semesters)
 
+def get_sessions(course_records):
+   sessions=set()
+   for d in (course_records['courses']):
+      for key, value in d.items():
+         if key=='session':
+               sessions.add(value) 
+   return list(sessions)
+
 def compute_results(student_records):
    """
    computes the gpa for each semester and also the cgpa based on the fomular here.
@@ -121,22 +129,35 @@ def compute_results(student_records):
    dictionary - cgpa
    """
    #get unique semester names
-   semesters= get_semesters(student_records)
+   sessions = get_sessions(student_records)
+   # print(sessions)
+   semesters = get_semesters(student_records)
+   stotal_units, stotal_grade_points =[],[]
+   
    total_units, total_grade_points =[],[]
    results = {}
-   for term in semesters:
-      units, scores =get_score_data(term,student_records )
-      tu,tgps,gpa=compute_gpa(units, scores)
-      total_units.append(tu)
-      total_grade_points.append(tgps)
-      results[term]=gpa
+   final_results = {}
+   for session in sessions:
+      # print(session)
+      for term in semesters:
+          
+         # print(term)
+         units, scores = get_score_data(session,term,student_records )
+         tu,tgps,gpa = compute_student_gpa(units, scores)
+         total_units.append(tu)
+         total_grade_points.append(tgps)
+         results['session']=session
+         results[term]=gpa
+         
 
-   cgpa = round(sum(total_grade_points) / sum(total_units),2)
-   results['name'] = student_records['name']
-   results['id'] = student_records['id']
-   results['CGPA'] = cgpa
-
-   return results
+         cgpa = round(sum(total_grade_points) / sum(total_units),2)
+      # results['name'] = student_records['name']
+      # results['id'] = student_records['id']
+         results['cgpa'] = cgpa
+         
+      final_results[session]=results
+   return results, gpa, final_results#, sessions, tu,tgps,gpa
+   
 
 # print(compute_results(student_records))
 
@@ -147,11 +168,11 @@ if __name__ == "__main__":
       "name": "James Webb",
       "id": "APT5005",
       "courses":[
-         {"title": "English", "unit": 2, "code": "ENG101", "score": 60, "term": "Fall"},
-         {"title": "Chemistry I", "unit": 4, "code": "CHE101", "score": 70, "term": "Fall"},
-         {"title": "Maths", "unit": 3, "code": "MTH101", "score": 80, "term": "Spring"},
-         {"title": "Chemistry II", "unit": 4, "code": "CHE102", "score": 91, "term": "Spring"}, 
-         {"title": "History", "unit": 2, "code": "HIS102", "score": 40, "term": "Spring"}
+         {"title": "English", "unit": 2, "code": "ENG101", "score": 60, "term": "Fall", "session":2020},
+         {"title": "Chemistry I", "unit": 4, "code": "CHE101", "score": 70, "term": "Fall", "session":2021},
+         {"title": "Maths", "unit": 3, "code": "MTH101", "score": 80, "term": "Spring", "session":2020},
+         {"title": "Chemistry II", "unit": 4, "code": "CHE102", "score": 91, "term": "Spring", "session":2021}, 
+         {"title": "History", "unit": 2, "code": "HIS102", "score": 40, "term": "Spring", "session":2020}
       ]
    }
 
