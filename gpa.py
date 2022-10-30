@@ -118,6 +118,10 @@ def get_sessions(course_records):
                sessions.add(value) 
    return list(sessions)
 
+def calculate_sum(lst):
+      
+    return list(map(sum, zip(*lst)))
+
 def compute_results(student_records):
    """
    computes the gpa for each semester and also the cgpa based on the fomular here.
@@ -130,36 +134,33 @@ def compute_results(student_records):
    """
    #get unique semester names
    sessions = get_sessions(student_records)
-   # print(sessions)
    semesters = get_semesters(student_records)
    stotal_units, stotal_grade_points =[],[]
-   
-   total_units, total_grade_points =[],[]
-   results = {}
-   final_results = {}
+
+   final_results = []
    for session in sessions:
-      # print(session)
+      total_units, total_grade_points =[],[]
+      results = {}
       for term in semesters:
-          
-         # print(term)
          units, scores = get_score_data(session,term,student_records )
          tu,tgps,gpa = compute_student_gpa(units, scores)
          total_units.append(tu)
          total_grade_points.append(tgps)
          results['session']=session
          results[term]=gpa
-         
-
          cgpa = round(sum(total_grade_points) / sum(total_units),2)
-      # results['name'] = student_records['name']
-      # results['id'] = student_records['id']
+   # results['name'] = student_records['name']
+   # results['id'] = student_records['id']
          results['cgpa'] = cgpa
-         
-      final_results[session]=results
-   return results, gpa, final_results#, sessions, tu,tgps,gpa
    
+      final_results.append(results)
+      stotal_units.append(total_units)
+      stotal_grade_points.append(total_grade_points)
 
-# print(compute_results(student_records))
+      
+   final_year_cgpa = round(sum(calculate_sum(stotal_grade_points)) / sum(calculate_sum(stotal_units)),2)
+   return final_results, final_year_cgpa
+         
 
 
 if __name__ == "__main__":
