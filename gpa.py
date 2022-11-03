@@ -157,7 +157,8 @@ def compute_results(student_records):
          
          results.append(f" Semester: {term}") 
          results.append(f" GPA: {gpa}") 
-      
+         
+      results.append(f" total unit: {sum(total_units)}") 
       cgpa = round(sum(total_grade_points) / sum(total_units),2)
       results.append(f" CGPA: {cgpa}") 
       final_result.append(results)
@@ -175,8 +176,7 @@ def compute_results(student_records):
       """
    final_year_cgpa = round(sum(calculate_sum(session_total_grade_points)) / sum(calculate_sum(session_total_units)),2)
    
-   final_result.append(f"Final_Year_CGPA: {final_year_cgpa}")
-            
+   final_result.append(f"Final_Year_CGPA: {final_year_cgpa}")         
       
    return final_result
          
