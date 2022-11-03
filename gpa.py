@@ -67,7 +67,7 @@ def compute_student_gpa(units, scores):
 
 def get_score_data(session,term,course_records):
    """
-   This function takes the term and student record and extracts the scores and the units for the semester.
+   This function takes the session,term and student record and extracts the scores and the units for the semester.
    parameters
    -----------
    string and dict
@@ -93,12 +93,8 @@ def get_semesters(course_records):
    -------
    array of semesters
    """
-   semesters = set()
-   for d in (course_records['courses']):
-      for key, value in d.items():
-         if key == 'term':
-               semesters.add(value) 
-   return list(semesters)
+   semesters = set([course['term'] for course in course_records['courses']])
+   return semesters
 
 def get_sessions(course_records):
    """
@@ -110,12 +106,8 @@ def get_sessions(course_records):
    -------
    array of sessions
    """
-   sessions = set()
-   for d in (course_records['courses']):
-      for key, value in d.items():
-         if key == 'session':
-               sessions.add(value) 
-   return list(sessions)
+   sessions = set([course['session'] for course in course_records['courses']])
+   return sessions
 
 def calculate_sum(lst):
    """
@@ -144,11 +136,16 @@ def compute_results(student_records):
    sessions = get_sessions(student_records)
    semesters = get_semesters(student_records)
    session_total_units, session_total_grade_points =[],[]
+   final_result=[]
+   final_result.append(f"Student Name: {student_records['name']}")
+   final_result.append(f"Student ID: {student_records['id']}")
 
-   final_year_results = {}
+   final_year_results = []
    for session in sessions:
       total_units, total_grade_points =[],[]
-      results = {}
+      results = list()
+      results.append(f"Year :{session}")
+
       for term in semesters:
          """
          compute cgpa for all terms in each session and keeping track of the units $ grades
@@ -157,9 +154,15 @@ def compute_results(student_records):
          tu,tgps,gpa = compute_student_gpa(units, scores)
          total_units.append(tu)
          total_grade_points.append(tgps)
-         results[term] = gpa
-         cgpa = round(sum(total_grade_points) / sum(total_units),2)
-         results['cgpa'] = cgpa
+         
+         results.append(f" Semester: {term}") 
+         results.append(f" GPA: {gpa}") 
+      
+      cgpa = round(sum(total_grade_points) / sum(total_units),2)
+      results.append(f" CGPA: {cgpa}") 
+      final_result.append(results)
+      
+         
 
       """
       keeping track of the total unit and grade point outside the term loop to be used for the final year computation
@@ -170,14 +173,12 @@ def compute_results(student_records):
       """
       final year computaion of cgpa with values of each session
       """
-      final_year_cgpa = round(sum(calculate_sum(session_total_grade_points)) / sum(calculate_sum(session_total_units)),2)
-      final_year_results['name'] = student_records['name']
-      final_year_results['id'] = student_records['id']
-      final_year_results[f"{session}_session"] = results
-      final_year_results['final_year_cgpa'] = final_year_cgpa
+   final_year_cgpa = round(sum(calculate_sum(session_total_grade_points)) / sum(calculate_sum(session_total_units)),2)
+   
+   final_result.append(f"Final_Year_CGPA: {final_year_cgpa}")
+            
       
-      
-   return final_year_results
+   return final_result
          
 
 
@@ -187,11 +188,11 @@ if __name__ == "__main__":
       "name": "James Webb",
       "id": "APT5005",
       "courses":[
-         {"title": "English", "unit": 2, "code": "ENG101", "score": 60, "term": "Fall", "session":2020},
-         {"title": "Chemistry I", "unit": 4, "code": "CHE101", "score": 70, "term": "Fall", "session":2021},
-         {"title": "Maths", "unit": 3, "code": "MTH101", "score": 80, "term": "Spring", "session":2020},
-         {"title": "Chemistry II", "unit": 4, "code": "CHE102", "score": 91, "term": "Spring", "session":2021}, 
-         {"title": "History", "unit": 2, "code": "HIS102", "score": 40, "term": "Spring", "session":2020}
+         {"title": "English", "unit": 2, "code": "ENG101", "score": 60, "term": "Fall", "session":'2020'},
+         {"title": "Chemistry I", "unit": 4, "code": "CHE101", "score": 70, "term": "Fall", "session":'2021'},
+         {"title": "Maths", "unit": 3, "code": "MTH101", "score": 80, "term": "Spring", "session":'2020'},
+         {"title": "Chemistry II", "unit": 4, "code": "CHE102", "score": 91, "term": "Spring", "session":'2021'}, 
+         {"title": "History", "unit": 2, "code": "HIS102", "score": 40, "term": "Spring", "session":'2020'}
       ]
    }
 
