@@ -1,12 +1,16 @@
 def calculate_sum(lst):
    """
    This function sums nested list.
-   parameters
+   Parameters
    -----------
-   list 
-   return
-   -------
-   array of values
+   lst: List
+       A list of values to be summed.
+       
+   Returns
+   --------
+   total: int
+         sum of all input values
    """
       
-   return list(map(sum, zip(*lst)))
+   total = list(map(sum, zip(*lst)))
+   return total
