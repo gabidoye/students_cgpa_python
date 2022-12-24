@@ -1,4 +1,4 @@
-from utils import calculate_sum
+from src.utils import calculate_sum
 
 
 GRADE_POINT_MAP = {'A': 5, 'B': 4, 'C':3, 'D':2, 'E':1, 'F':0} #constant used for mapping score and grades
