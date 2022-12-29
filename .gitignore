@@ -1,0 +1,6 @@
+.DS_Store
+
+.venv_gpa/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
