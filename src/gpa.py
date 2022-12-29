@@ -1,3 +1,5 @@
+from src.utils import calculate_sum
+
 
 GRADE_POINT_MAP = {'A': 5, 'B': 4, 'C':3, 'D':2, 'E':1, 'F':0} #constant used for mapping score and grades
 
@@ -6,11 +8,14 @@ def compute_student_grade(scores):
    This computes the students grade and point based on the score the student gets in each course
    Parameters
    -----------
-   student_record : (list) 
-         List of scores
+   scores : List
+         List of scores obtained by student
    Returns
    -------
-   List of (alphabetic) grades and  list of grade points
+   grade: List
+         grade of scores 
+   point:  int
+         coresponding point for the grade obtained by the student
    Example
    --------
    scores = [60, 80, 40, 30]
@@ -49,11 +54,18 @@ def compute_student_gpa(units, scores):
    Use the score obtained in each semester(fall or spring) and the course unit credit to calculates the gpa for the respective semester.
    Parameters
    -----------
-   units : Array of int 
-   scores : Array of int
+   units : List
+         the unit credit of the course taken by the student
+   scores : List
+         score obtained by the student in each course
    Returns
    -------
-   Tuple of two float values
+   total_unit: int
+            summed units
+   total_grade_point: 
+            summed grades
+   gpa:  float
+      computed grade point average
    Example
    --------
    compute_student_gpa([4, 5], [8, 15], [2,3], [1,2])) # (2.56, 0.6)
@@ -65,15 +77,56 @@ def compute_student_gpa(units, scores):
 
    return total_unit,total_grade_point,gpa
 
+
+   
+def get_semesters(course_records):
+   """
+   This function retrieve the unique semesters from the student record.
+   parameters
+   -----------
+   course_records: dict
+                  student information
+   Returns
+   -------
+   semesters: List
+            unique list of semesters
+   """
+   semesters = set([course['term'] for course in course_records['courses']])
+   return semesters
+
+def get_sessions(course_records):
+   """
+   This function retrieve the unique sessions from the student record.
+    parameters
+   -----------
+   course_records: dict
+                  student information
+   Returns
+   -------
+   sessions: List
+            unique list of session
+   """
+   sessions = set([course['session'] for course in course_records['courses']])
+   return sessions
+
+
 def get_score_data(session,term,course_records):
    """
    This function takes the session,term and student record and extracts the scores and the units for the semester.
    parameters
    -----------
-   string and dict
+   session: List
+            list of courses the student takes 
+   term: List
+            list of unique term
+   course_records: dict
+            student information
    return
    -------
-   array of units and scores
+   units: List
+         list of units 
+   scores:
+         list of scores
    """
    units = []
    scores = []
@@ -82,45 +135,7 @@ def get_score_data(session,term,course_records):
          units.append(record['unit'])
          scores.append(record['score'])
    return (units, scores)
-   
-def get_semesters(course_records):
-   """
-   This function retrieve the unique semesters from the student record.
-   parameters
-   -----------
-   dict
-   return
-   -------
-   array of semesters
-   """
-   semesters = set([course['term'] for course in course_records['courses']])
-   return semesters
 
-def get_sessions(course_records):
-   """
-   This function retrieve the unique sessions from the student record.
-   parameters
-   -----------
-   dict
-   return
-   -------
-   array of sessions
-   """
-   sessions = set([course['session'] for course in course_records['courses']])
-   return sessions
-
-def calculate_sum(lst):
-   """
-   This function sums nested list.
-   parameters
-   -----------
-   list 
-   return
-   -------
-   array of values
-   """
-      
-   return list(map(sum, zip(*lst)))
 
 def compute_results(student_records):
    """
@@ -129,18 +144,19 @@ def compute_results(student_records):
    
    return
    -------
-   array -total_units, total_grade_points
-   dictionary - cgpa
+   final_result: List
+               Computed Student Name, ID, Session, Semester, GPA and CGPA
+   
    """
    #get unique semester names
    sessions = get_sessions(student_records)
    semesters = get_semesters(student_records)
    session_total_units, session_total_grade_points =[],[]
-   final_result=[]
+   final_result = []
    final_result.append(f"Student Name: {student_records['name']}")
    final_result.append(f"Student ID: {student_records['id']}")
 
-   final_year_results = []
+   
    for session in sessions:
       total_units, total_grade_points =[],[]
       results = list()
@@ -183,22 +199,9 @@ def compute_results(student_records):
 
 
 if __name__ == "__main__":
+   compute_results()
 
-   student_records = {
-      "name": "James Webb",
-      "id": "APT5005",
-      "courses":[
-         {"title": "English", "unit": 2, "code": "ENG101", "score": 60, "term": "Fall", "session":'2020'},
-         {"title": "Chemistry I", "unit": 4, "code": "CHE101", "score": 70, "term": "Fall", "session":'2021'},
-         {"title": "Maths", "unit": 3, "code": "MTH101", "score": 80, "term": "Spring", "session":'2020'},
-         {"title": "Chemistry II", "unit": 4, "code": "CHE102", "score": 91, "term": "Spring", "session":'2021'}, 
-         {"title": "History", "unit": 2, "code": "HIS102", "score": 40, "term": "Spring", "session":'2020'}
-      ]
-   }
-
-   results=compute_results(student_records)
-   print(results)
- 
+   
 
 
 
