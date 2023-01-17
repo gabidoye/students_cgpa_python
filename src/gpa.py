@@ -132,8 +132,8 @@ def get_score_data(session,term,course_records):
    scores = []
    for record in (course_records['courses']):
       if record['term'] == term and record['session'] == session:
-         units.append(record['unit'])
-         scores.append(record['score'])
+         units.append(int(record['unit']))
+         scores.append(int(record['score']))
    return (units, scores)
 
 

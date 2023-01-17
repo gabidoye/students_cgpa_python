@@ -1,24 +1,21 @@
 import csv
 
 
-def read_files():
+def read_student_csv(filename):
     
-    with open("data/student_record.csv", "r", encoding='utf-8-sig') as students_in:
+    with open(filename, "r", encoding='utf-8-sig') as students_in:
         student_information = {
             student["id"] : student 
-            for student
-            in csv.DictReader(students_in, skipinitialspace=True)
+            for student in csv.DictReader(students_in, skipinitialspace=True)
         }    
+        return student_information
 
-    with open("data/course_records.csv", "r", encoding="utf-8-sig") as classes_in:
-        for student_class in csv.DictReader(classes_in):
-            student_id = student_class["student_id"]
-            if student_id not in student_information:
-                print(f"student not found: {student_id}")
-                continue
-            student_information[student_id].setdefault("courses", []).append(student_class)
+def read_course_csv(filename):    
+    with open(filename, "r", encoding="utf-8-sig") as csvfile:
+        reader = csv.DictReader(csvfile)
+        course_dict = list(reader)
 
-    student_information = list(student_information.values())
-    return student_information
+        return course_dict
 
-# read_files()
+
+
