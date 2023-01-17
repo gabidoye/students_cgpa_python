@@ -1,21 +1,20 @@
-﻿name,matric No,dob,address,department
+﻿name,id,dob,address,department
 Margaret Chase,201001,1976-12-02,USCGC Walker FPO AP 28772,Micro Biology
-,,,,
+
 Erica Woods,201002,2010-02-03,"565 Patricia Coves Apt. 659 Lake Brandiside, MS 61181",French
-,,,,
+
 Jonathan Wilson,201003,1917-09-13,"9592 Ford Terrace Frankshire, SD 74674",French
-,,,,
+
 Cathy Johnson,201004,1986-07-20,"11926 Christopher Ferry Suite 158 Lake Nancyburgh, ID 45282",Computer science
-,,,,
+
 James Miller,201005,1943-06-11,"079 Ferguson Green Apt. 112 Crystalside, MP 29302",English
-,,,,
+
 Angela Thompson,201006,1928-08-14,Unit 5004 Box 9257 DPO AA 68071,French
-,,,,
+
 Evan Ferguson,201007,1922-02-02,"88617 Nicholas Loop Suite 424 New Brianberg, AR 37119",Micro Biology
-,,,,
+
 Jake Norman,201008,2015-11-01,"9123 Timothy Trail Orozcochester, AK 89764",Computer science
-,,,,
+
 Brandon Calhoun,201009,1965-10-11,"434 Michael Pike Lake Annaville, VA 05495",Micro Biology
-,,,,
-Ally Davidson,201009,1987-04-08,"23 Anifowose crescent, NG T2 06582",Computer science
-,,,,
+
+Ally Davidson,201010,1987-04-08,"23 Anifowose crescent, NG T2 06582",Computer science
