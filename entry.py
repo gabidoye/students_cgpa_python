@@ -6,7 +6,7 @@ from src.utils import convert_to_dict
 student_records = read_files()
 student_records = convert_to_dict(student_records)
 
-# print(student_records)
+print(student_records)
 
 # student_records = [{
 #       "name": "James Webb",
