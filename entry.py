@@ -3,6 +3,14 @@ from src import gpa
 from src.io import read_course_csv, read_student_csv
 from src.utils import convert_to_dict
 
+# import module
+from datetime import datetime
+
+# get current date and time
+current_datetime = str(datetime.now())
+
+file_name = "result_"+current_datetime
+
 
 
 if __name__ == "__main__":
@@ -19,10 +27,24 @@ if __name__ == "__main__":
 
 overall_student_information = list(student_information.values())
 
+computed_result =[]
 for student in overall_student_information:
    results=gpa.compute_results(student)
-   print(results)
-   print('\n')
+   computed_result.append(results)
+print(computed_result)
+
+   # print(results)
+   # print('\n')
+
+with open("data/%s.txt" % file_name , 'w') as f:
+   for result in computed_result:
+      for key, value in result.items():
+         f.write('%s:%s\n' % (key, value))
+       
+         
+
+
+
 
 
 

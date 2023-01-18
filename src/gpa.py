@@ -152,9 +152,13 @@ def compute_results(student_records):
    sessions = get_sessions(student_records)
    semesters = get_semesters(student_records)
    session_total_units, session_total_grade_points =[],[]
-   final_result = []
-   final_result.append(f"Student Name: {student_records['name']}")
-   final_result.append(f"Student ID: {student_records['id']}")
+   # final_result = []
+   # final_result.append(f"Student Name: {student_records['name']}")
+   # final_result.append(f"Student ID: {student_records['id']}")
+
+   final_result = {}
+   final_result['Student Name'] = student_records['name']
+   final_result['Student ID'] =  student_records['id']
 
    
    for session in sessions:
@@ -177,7 +181,7 @@ def compute_results(student_records):
       results.append(f" total unit: {sum(total_units)}") 
       cgpa = round(sum(total_grade_points) / sum(total_units),2)
       results.append(f" CGPA: {cgpa}") 
-      final_result.append(results)
+      final_result['results'] = results
       
          
 
@@ -192,7 +196,7 @@ def compute_results(student_records):
       """
    final_year_cgpa = round(sum(calculate_sum(session_total_grade_points)) / sum(calculate_sum(session_total_units)),2)
    
-   final_result.append(f"Final_Year_CGPA: {final_year_cgpa}")         
+   final_result["Final_Year_CGPA"] = final_year_cgpa        
       
    return final_result
          
