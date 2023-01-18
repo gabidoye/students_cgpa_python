@@ -7,7 +7,10 @@ from src.utils import write_result
 from datetime import datetime
 
 # get current date and time
-current_datetime = str(datetime.now())
+# current_datetime = str(datetime.now())
+today = datetime.now()
+dt_string = today.strftime("%d%m%Y_%H_%M_%S")
+current_datetime = str(dt_string)
 
 file_name = "result_"+current_datetime
 

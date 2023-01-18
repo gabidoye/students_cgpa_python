@@ -1,0 +1,40 @@
+Student Name:Margaret Chase
+Student ID:201001
+results:['Year :2020', ' Semester: Spring', ' GPA: 3.4', ' Semester: Fall', ' GPA: 4.0', ' total unit: 7', ' CGPA: 3.57']
+Final_Year_CGPA:4.33
+Student Name:Erica Woods
+Student ID:201002
+results:['Year :2020', ' Semester: Spring', ' GPA: 3.8', ' Semester: Fall', ' GPA: 1.0', ' total unit: 7', ' CGPA: 3.0']
+Final_Year_CGPA:2.73
+Student Name:Jonathan Wilson
+Student ID:201003
+results:['Year :2020', ' Semester: Spring', ' GPA: 3.4', ' Semester: Fall', ' GPA: 5.0', ' total unit: 7', ' CGPA: 3.86']
+Final_Year_CGPA:2.87
+Student Name:Cathy Johnson
+Student ID:201004
+results:['Year :2020', ' Semester: Spring', ' GPA: 3.4', ' Semester: Fall', ' GPA: 5.0', ' total unit: 7', ' CGPA: 3.86']
+Final_Year_CGPA:3.67
+Student Name:James Miller
+Student ID:201005
+results:['Year :2020', ' Semester: Spring', ' GPA: 2.8', ' Semester: Fall', ' GPA: 1.0', ' total unit: 7', ' CGPA: 2.29']
+Final_Year_CGPA:2.4
+Student Name:Angela Thompson
+Student ID:201006
+results:['Year :2020', ' Semester: Spring', ' GPA: 3.8', ' Semester: Fall', ' GPA: 3.0', ' total unit: 7', ' CGPA: 3.57']
+Final_Year_CGPA:3.27
+Student Name:Evan Ferguson
+Student ID:201007
+results:['Year :2020', ' Semester: Spring', ' GPA: 5.0', ' Semester: Fall', ' GPA: 5.0', ' total unit: 7', ' CGPA: 5.0']
+Final_Year_CGPA:5.0
+Student Name:Jake Norman
+Student ID:201008
+results:['Year :2020', ' Semester: Spring', ' GPA: 2.6', ' Semester: Fall', ' GPA: 0.0', ' total unit: 7', ' CGPA: 1.86']
+Final_Year_CGPA:1.67
+Student Name:Brandon Calhoun
+Student ID:201009
+results:['Year :2020', ' Semester: Spring', ' GPA: 5.0', ' Semester: Fall', ' GPA: 3.0', ' total unit: 7', ' CGPA: 4.43']
+Final_Year_CGPA:4.73
+Student Name:Ally Davidson
+Student ID:201010
+results:['Year :2020', ' Semester: Spring', ' GPA: 3.8', ' Semester: Fall', ' GPA: 1.0', ' total unit: 7', ' CGPA: 3.0']
+Final_Year_CGPA:3.27
