@@ -1,7 +1,7 @@
 
 from src import gpa
 from src.io import read_course_csv, read_student_csv
-from src.utils import convert_to_dict
+from src.utils import write_result
 
 # import module
 from datetime import datetime
@@ -31,16 +31,10 @@ computed_result =[]
 for student in overall_student_information:
    results=gpa.compute_results(student)
    computed_result.append(results)
-print(computed_result)
 
-   # print(results)
-   # print('\n')
+write_result(computed_result,file_name)
 
-with open("data/%s.txt" % file_name , 'w') as f:
-   for result in computed_result:
-      for key, value in result.items():
-         f.write('%s:%s\n' % (key, value))
-       
+
          
 
 

@@ -20,20 +20,20 @@ def calculate_sum(lst):
 
 
 
-
-
-def convert_to_dict(input_ordered_dict):
+def write_result(computed_result, file_name):
     """
-   This function converts the read student_records files and the course_records file
-   into the program required format.
+   This function writes result to file
    Parameters
    -----------
    lst: List
-       A list of all the student information.
+       A list of all the student computed results.
+   str: file name
        
    Returns
    --------
-   student_information: list
-         all student to compute gpa for
+   None
    """
-    return loads(dumps(input_ordered_dict))
+    with open("data/%s.txt" % file_name , 'w') as f:
+        for result in computed_result:
+            for key, value in result.items():
+                f.write('%s:%s\n' % (key, value))
