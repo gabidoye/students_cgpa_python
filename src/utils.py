@@ -33,7 +33,7 @@ def write_result(computed_result, file_name):
    --------
    None
    """
-    with open("data/%s.txt" % file_name , 'w') as f:
+    with open("results/%s.txt" % file_name , 'w') as f:
         for result in computed_result:
             for key, value in result.items():
                 f.write('%s:%s\n' % (key, value))
