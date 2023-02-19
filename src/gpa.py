@@ -127,6 +127,8 @@ def get_score_data(session,term,course_records):
          list of units 
    scores:
          list of scores
+   total course:
+         total number of courses taken
    """
    units = []
    scores = []
