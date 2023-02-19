@@ -199,8 +199,6 @@ def compute_results(student_records):
       final_result['num_years'] = number_of_sessions
       final_result['num_semesters'] = number_of_semesters
       gpa_results['CGPA'] = cgpa
-      
-      
          
 
       """
