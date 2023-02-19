@@ -152,10 +152,9 @@ def compute_results(student_records):
    sessions = get_sessions(student_records)
    semesters = get_semesters(student_records)
    session_total_units, session_total_grade_points =[],[]
-   # final_result = []
-   # final_result.append(f"Student Name: {student_records['name']}")
-   # final_result.append(f"Student ID: {student_records['id']}")
 
+
+   results = list()
    final_result = {}
    final_result['Student Name'] = student_records['name']
    final_result['Student ID'] =  student_records['id']
@@ -163,7 +162,6 @@ def compute_results(student_records):
    
    for session in sessions:
       total_units, total_grade_points =[],[]
-      results = list()
       results.append(f"Year :{session}")
 
       for term in semesters:
