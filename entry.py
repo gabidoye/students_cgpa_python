@@ -12,7 +12,8 @@ today = datetime.now()
 dt_string = today.strftime("%d%m%Y_%H_%M_%S")
 current_datetime = str(dt_string)
 
-file_name = "result_"+current_datetime
+gpa_file_name = "result_gpa"+current_datetime
+cgpa_file_name = "result_cgpa"+current_datetime
 
 
 
@@ -30,12 +31,17 @@ if __name__ == "__main__":
 
 overall_student_information = list(student_information.values())
 
-computed_result =[]
+gpa_computed_result = []
+cgpa_computed_result = []
 for student in overall_student_information:
-   results=gpa.compute_results(student)
-   computed_result.append(results)
+   gpa_results, cgpa_result = gpa.compute_results(student)
+   gpa_computed_result.append(gpa_results)
+   cgpa_computed_result.append(cgpa_result)
 
-write_result(computed_result,file_name)
+# print(cgpa_result)
+
+write_result(cgpa_computed_result,cgpa_file_name)
+write_result(gpa_computed_result,gpa_file_name)
 
 
          
