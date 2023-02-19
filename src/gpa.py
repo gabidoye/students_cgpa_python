@@ -130,11 +130,13 @@ def get_score_data(session,term,course_records):
    """
    units = []
    scores = []
+   total_num_courses = 0
    for record in (course_records['courses']):
       if record['term'] == term and record['session'] == session:
          units.append(int(record['unit']))
          scores.append(int(record['score']))
-   return (units, scores)
+      total_num_courses += 1
+   return (units, scores, total_num_courses)
 
 
 def compute_results(student_records):
@@ -162,10 +164,6 @@ def compute_results(student_records):
    gpa_results ={}
    gpa_results["Student ID"] =  student_records["id"]
    
-
-
-   #student_id, num_years, num_semesters, total_num_courses, total_units, total_credit_units, cgpa
-
    
    for session in sessions:
       number_of_sessions = 0
@@ -180,18 +178,19 @@ def compute_results(student_records):
          compute cgpa for all terms in each session and keeping track of the units $ grades
          """
          
-         units, scores = get_score_data(session,term,student_records )
+         units, scores, total_num_courses = get_score_data(session,term,student_records )
          tu,tgps,gpa = compute_student_gpa(units, scores)
          total_units.append(tu)
          total_grade_points.append(tgps)
          
          results.append(f" Semester: {term}") 
          results.append(f" GPA: {gpa}") 
+         
 
          number_of_sessions += 1   
          number_of_semesters += 1
          total_credit_units += int(tu)
-
+      
       results.append(f" total unit: {sum(total_units)}") 
       cgpa = round(sum(total_grade_points) / sum(total_units),2)
       gpa_results['results'] = results
@@ -199,6 +198,7 @@ def compute_results(student_records):
       final_result['num_years'] = number_of_sessions
       final_result['num_semesters'] = number_of_semesters
       gpa_results['CGPA'] = cgpa
+      
          
 
       """
@@ -218,6 +218,7 @@ def compute_results(student_records):
    
    final_result['total_credit_units'] = sum_of_all_grades
    final_result['total_units'] = sum_of_total_units
+   final_result['total_num_courses'] = total_num_courses
    
    final_result["Final_Year_CGPA"] = final_year_cgpa        
       

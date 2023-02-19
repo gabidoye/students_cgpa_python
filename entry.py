@@ -12,8 +12,8 @@ today = datetime.now()
 dt_string = today.strftime("%d%m%Y_%H_%M_%S")
 current_datetime = str(dt_string)
 
-gpa_file_name = "result_gpa"+current_datetime
-cgpa_file_name = "result_cgpa"+current_datetime
+gpa_file_name = "gpa_result_"+current_datetime
+cgpa_file_name = "cgpa_result_"+current_datetime
 
 
 
