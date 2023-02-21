@@ -16,32 +16,33 @@ gpa_file_name = "gpa_result_"+current_datetime
 cgpa_file_name = "cgpa_result_"+current_datetime
 
 
-
-if __name__ == "__main__":
+def load_data():
    student_information = read_student_csv('data/student_record.csv')
    course_information = read_course_csv('data/course_records.csv')
-
    for course in course_information:
       student_id = course["student_id"]
-
       if student_id not in student_information:
          print(f"student not found: {student_id}")
          continue
       student_information[student_id].setdefault("courses", []).append(course)
 
-overall_student_information = list(student_information.values())
+   overall_student_information = list(student_information.values())
+   return overall_student_information
 
-gpa_computed_result = []
-cgpa_computed_result = []
-for student in overall_student_information:
-   gpa_results, cgpa_result = gpa.compute_results(student)
-   gpa_computed_result.append(gpa_results)
-   cgpa_computed_result.append(cgpa_result)
+if __name__ == "__main__":
+   overall_student_information = load_data()
 
-# print(cgpa_result)
+   gpa_computed_result = []
+   cgpa_computed_result = []
+   for student in overall_student_information:
+      
+      gpa_results, cgpa_result = gpa.compute_results(student)
+      gpa_computed_result.append(gpa_results)
+      cgpa_computed_result.append(cgpa_result)
 
-write_result(cgpa_computed_result,cgpa_file_name)
-write_result(gpa_computed_result,gpa_file_name)
+
+   write_result(cgpa_computed_result,cgpa_file_name)
+   write_result(gpa_computed_result,gpa_file_name)
 
 
          
