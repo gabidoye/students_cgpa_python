@@ -92,7 +92,7 @@ def get_semesters(course_records):
             unique list of semesters
    """
    semesters = set([course['term'] for course in course_records['courses']])
-   return semesters
+   return semesters, len(semesters)
 
 def get_sessions(course_records):
    """
@@ -107,7 +107,7 @@ def get_sessions(course_records):
             unique list of session
    """
    sessions = set([course['session'] for course in course_records['courses']])
-   return sessions
+   return sessions, len(sessions)
 
 
 def get_score_data(session,term,course_records):
@@ -127,18 +127,14 @@ def get_score_data(session,term,course_records):
          list of units 
    scores:
          list of scores
-   total course:
-         total number of courses taken
    """
    units = []
    scores = []
-   total_num_courses = 0
    for record in (course_records['courses']):
       if record['term'] == term and record['session'] == session:
          units.append(int(record['unit']))
          scores.append(int(record['score']))
-      total_num_courses += 1
-   return (units, scores, total_num_courses)
+   return (units, scores)
 
 
 def compute_results(student_records):
@@ -153,53 +149,47 @@ def compute_results(student_records):
    
    """
    #get unique semester names
-   sessions = get_sessions(student_records)
-   semesters = get_semesters(student_records)
+   sessions,num_years = get_sessions(student_records)
+   semesters, num_semesters = get_semesters(student_records)
    session_total_units, session_total_grade_points =[],[]
+   total_num_courses = len(student_records['courses'])
 
 
-   results = list()
    final_result = {}
-   final_result["Student Name"] = student_records['name']
-   final_result["Student ID"] =  student_records["id"]
+   final_result['Student Name'] = student_records['Name']
+   final_result['Student ID'] =  student_records['student_id']
+   gpa_result ={}
+   gpa_result['Student ID'] =  student_records['student_id']
 
-   gpa_results ={}
-   gpa_results["Student ID"] =  student_records["id"]
-   
    
    for session in sessions:
-      number_of_sessions = 0
-      number_of_semesters = 0
-      total_credit_units = 0
       total_units, total_grade_points =[],[]
-      results.append(f"Year :{session}")
-
+      cgpa_results = list()
+      gpa_results = list()
+      cgpa_results.append(f"{session}")
 
       for term in semesters:
          """
          compute cgpa for all terms in each session and keeping track of the units $ grades
          """
+         units, scores = get_score_data(session,term,student_records )
          
-         units, scores, total_num_courses = get_score_data(session,term,student_records )
+         
          tu,tgps,gpa = compute_student_gpa(units, scores)
          total_units.append(tu)
          total_grade_points.append(tgps)
          
-         results.append(f" Semester: {term}") 
-         results.append(f" GPA: {gpa}") 
-         
+         cgpa_results.append(f" {term}") 
 
-         number_of_sessions += 1   
-         number_of_semesters += 1
-         total_credit_units += int(tu)
+         #computing gpa result
+         gpa_results.append(f" {gpa}") 
+         gpa_results.append(f" {term}") 
+         gpa_results.append(f" {session}") 
       
-      results.append(f" total unit: {sum(total_units)}") 
+      cgpa_results.append(f"{sum(total_units)}") 
       cgpa = round(sum(total_grade_points) / sum(total_units),2)
-      gpa_results['results'] = results
+      cgpa_results.append(f" {cgpa}") 
       
-      final_result['num_years'] = number_of_sessions
-      final_result['num_semesters'] = number_of_semesters
-      gpa_results['CGPA'] = cgpa
       
          
 
@@ -212,19 +202,21 @@ def compute_results(student_records):
       """
       final year computaion of cgpa with values of each session
       """
-   sum_of_all_grades = sum(calculate_sum(session_total_grade_points))
-   sum_of_total_units = sum(calculate_sum(session_total_units))
-
-
-   final_year_cgpa = round((sum_of_all_grades / sum_of_total_units),2)
+   total_units= sum(calculate_sum(session_total_units))
+   total_credit_units = sum(calculate_sum(session_total_grade_points))
+   final_year_cgpa = round(total_credit_units / total_units,2)
    
-   final_result['total_credit_units'] = sum_of_all_grades
-   final_result['total_units'] = sum_of_total_units
-   final_result['total_num_courses'] = total_num_courses
+   #cgpa output
+   final_result["num_years"] = num_years
+   final_result["num_semesters"] = num_semesters 
+   final_result["total_num_courses"] = total_num_courses
+   final_result["Total_units"] =  total_units
+   final_result["total_credit_units"] = total_credit_units
+   final_result["CGPA"] = final_year_cgpa   
+    
    
-   final_result["Final_Year_CGPA"] = final_year_cgpa        
       
-   return   gpa_results ,final_result
+   return final_result
          
 
 
