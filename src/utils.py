@@ -1,5 +1,6 @@
 from json import loads, dumps
 from collections import OrderedDict
+import csv
 
 def calculate_sum(lst):
    """
@@ -19,7 +20,6 @@ def calculate_sum(lst):
    return total
 
 
-
 def write_result(computed_result, file_name):
     """
    This function writes result to file
@@ -33,7 +33,13 @@ def write_result(computed_result, file_name):
    --------
    None
    """
-    with open("results/%s.txt" % file_name , 'w') as f:
+    
+    # create header row
+    header = computed_result[0].keys()
+
+    # write results to CSV file
+    with open("results/%s.csv" % file_name , 'w', newline='') as f:
+        writer = csv.DictWriter(f, fieldnames=header)
+        writer.writeheader()
         for result in computed_result:
-            for key, value in result.items():
-                f.write('%s:%s\n' % (key, value))
+            writer.writerow(result)
