@@ -1,23 +1,40 @@
 
+# import module
 from src import gpa
+from src.io import read_student_file_with_course
+from src.utils import write_result
+from datetime import datetime
 
 
-student_records = {
-      "name": "James Webb",
-      "id": "APT5005",
-      "courses":[
-         {"title": "English", "unit": 2, "code": "ENG101", "score": 60, "term": "Fall", "session":'2020'},
-         {"title": "Chemistry I", "unit": 4, "code": "CHE101", "score": 70, "term": "Fall", "session":'2021'},
-         {"title": "Maths", "unit": 3, "code": "MTH101", "score": 80, "term": "Spring", "session":'2020'},
-         {"title": "Chemistry II", "unit": 4, "code": "CHE102", "score": 91, "term": "Spring", "session":'2021'}, 
-         {"title": "History", "unit": 2, "code": "HIS102", "score": 40, "term": "Spring", "session":'2020'}
-      ]
-   }
+today = datetime.now()
+dt_string = today.strftime("%d%m%Y_%H_%M_%S")
+current_datetime = str(dt_string)
+
+file_name = "result_"+current_datetime
+ 
 
 
 if __name__ == "__main__":
-    results=gpa.compute_results(student_records)
-    print(results)
+    student_file = 'data/student_record.csv'
+    course_file = 'data/course_records.csv'
+    overall_student_information = read_student_file_with_course(student_file, course_file)
+
+    computed_result =[]
+    for student in overall_student_information:
+      results=gpa.compute_results(student)
+      computed_result.append(results)
+
+
+      write_result(computed_result,file_name)
+
+
+    
+
+
+         
+
+
+
 
 
 
